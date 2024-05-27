@@ -17,6 +17,8 @@ public class Ship : MonoBehaviour
     [SerializeField] private GameObject _leftEngine;
     private bool _engineDetached = false;
 
+    [SerializeField] private ParticleSystem[] particleSystems;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +32,7 @@ public class Ship : MonoBehaviour
 
     void Update()
     {
-        if (this.transform.position.y > 20 && !_engineDetached)
+        if (this.transform.position.y > 80 && !_engineDetached)
         {
             this._rightEngine.transform.SetParent(null);
             this._leftEngine.transform.SetParent(null);
@@ -53,6 +55,11 @@ public class Ship : MonoBehaviour
         if (_rb.velocity.magnitude < _maxSpeed)
         {
             _rb.AddForce(this.transform.up * _speed * Mathf.Clamp(speed, 0, _maxSpeed));
+        }
+        
+        foreach(ParticleSystem ps in particleSystems)
+        {
+            ps.Emit(1 );
         }
     }
 
